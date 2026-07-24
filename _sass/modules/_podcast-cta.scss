@@ -1,0 +1,130 @@
+// On Rails podcast CTA — a card closing out the "How did they do it?"
+// section, below the logo wall. Horizontal on desktop (logo left, copy and
+// links right), stacked and centered on narrow viewports. The base docs
+// cards are fixed-height, absolutely positioned tiles whose entire surface
+// is one link; this one sizes to its content and carries its own links, so
+// those behaviors are unwound here. Background, radius, and shadow come from
+// the base card.
+.podcast-cta {
+  // px, not em: .cards zeroes font-size, so em margins collapse to 0. The
+  // bottom gap ends up larger than the top (the section's own
+  // common-padding--bottom stacks under it) so the card closes the section
+  // rather than starting the footer.
+  margin-bottom: 50px;
+  margin-top: 50px;
+
+  // One centered card instead of the multi-column grid the base sets at
+  // wider viewports.
+  .cards__container {
+    grid-template-columns: 1fr;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 760px;
+  }
+
+  .card {
+    height: auto;
+    max-height: none !important; // .docs .card sets max-height with !important
+  }
+
+  .card__body {
+    height: auto;
+    position: static;
+  }
+
+  // Base (mobile): stacked and centered. The base card splits its inset
+  // between .card__content side margins and top/bottom padding; replace both
+  // with balanced padding here.
+  .card__content {
+    margin-left: 0;
+    margin-right: 0;
+    padding: 28px 36px;
+    text-align: center;
+  }
+
+  // At >=768px the base grid makes every <a> in a card an absolutely
+  // positioned, full-width tile link. Return them to normal flow so the
+  // logo link and the two action links lay out as content.
+  .card__content a {
+    height: auto;
+    position: static;
+    width: auto;
+  }
+
+  .podcast-cta__logo-link {
+    display: block;
+  }
+
+  .podcast-cta__logo {
+    display: block;
+    height: 104px;
+    margin: 0 auto 20px;
+    width: 104px; // explicit: body img forces width: 100%
+  }
+
+  // Match the body-copy treatment of the cards higher on the page
+  // (.cards .card__content p): 18px / 23px, grey-5 (inherited here).
+  .podcast-cta__body p {
+    font-size: 18px;
+    line-height: 23px;
+  }
+
+  .podcast-cta__actions {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 0; // beats .common-content p, hence the descendant selector
+    row-gap: 10px;
+
+    a {
+      display: inline;
+    }
+  }
+
+  // Below 480px the two links stack and the decorative divider drops out,
+  // rather than wrapping inline and stranding it at a line end.
+  .podcast-cta__divider {
+    display: none;
+  }
+
+  @media (min-width: 480px) {
+    .podcast-cta__actions {
+      flex-direction: row;
+      justify-content: center;
+      row-gap: 0;
+    }
+
+    .podcast-cta__divider {
+      color: $color-grey-3;
+      display: inline;
+      padding: 0 10px;
+    }
+  }
+
+  // Desktop: horizontal. Logo fixed on the left, copy and links left-aligned
+  // on the right. 600px is where the two-column layout stops crowding.
+  @media (min-width: 600px) {
+    .card__content {
+      align-items: center;
+      display: flex;
+      gap: 32px;
+      text-align: left;
+    }
+
+    .podcast-cta__logo-link {
+      flex: none;
+    }
+
+    .podcast-cta__logo {
+      margin: 0;
+    }
+
+    .podcast-cta__body {
+      flex: 1;
+    }
+
+    .podcast-cta__actions {
+      justify-content: flex-start;
+    }
+  }
+}
