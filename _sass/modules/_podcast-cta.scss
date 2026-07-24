@@ -1,0 +1,100 @@
+// On Rails podcast CTA — a single centered card closing out the "How did
+// they do it?" section, below the logo wall. The base docs cards are
+// fixed-height, absolutely positioned tiles whose entire surface is one
+// link; this one sizes to its content and carries its own links, so those
+// behaviors are unwound here. Background, radius, and shadow come from the
+// base card.
+.podcast-cta {
+  // px, not em: .cards zeroes font-size, so em margins collapse to 0. The
+  // bottom gap is double the top one so the card reads as the end of this
+  // section rather than the start of the footer.
+  margin-bottom: 50px;
+  margin-top: 50px;
+
+  // One centered card instead of the multi-column grid the base sets at
+  // wider viewports, capped near the width of the section's text column so
+  // it reads as a larger sibling of the case-study tiles.
+  .cards__container {
+    grid-template-columns: 1fr;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 640px;
+  }
+
+  .card {
+    height: auto;
+    max-height: none !important; // .docs .card sets max-height with !important
+  }
+
+  .card__body {
+    height: auto;
+    position: static;
+  }
+
+  // The base splits the card's inset between side margins (30px) and its own
+  // top/bottom padding (34/35px), sized for a card led by .card__headline.
+  // This one leads with the logo, so even all four sides.
+  .card__content {
+    margin-left: 30px;
+    margin-right: 30px;
+    padding-bottom: 30px;
+    padding-top: 30px;
+  }
+
+  // Up one step from the base card's 18px, to the 21px this text section
+  // already uses for h4. Set on the paragraphs so the links inherit it.
+  .card__content p {
+    font-size: 21px;
+    line-height: 1.6;
+  }
+
+  .podcast-cta__logo {
+    display: block;
+    height: 160px;
+    margin: 0 auto 22px;
+    width: 160px; // explicit: body img forces width: 100%
+  }
+
+  // The base grid makes every <a> in a card an absolutely positioned tile
+  // link filling the card. The logo link stays block so the badge centers
+  // inside it; the action links below revert to inline.
+  .card__content a {
+    display: block;
+    height: auto;
+    position: static;
+    width: auto;
+  }
+
+  .podcast-cta__actions {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 0; // beats .common-content p, hence the descendant selector
+    row-gap: 10px;
+
+    a {
+      display: inline;
+    }
+  }
+
+  // Below 480px the two links no longer fit on one line, so they stack and
+  // the decorative divider drops out rather than stranding at a line end.
+  // Content-driven breakpoint, as in the heading, trusted, and footer modules.
+  .podcast-cta__divider {
+    display: none;
+  }
+
+  @media (min-width: 480px) {
+    .podcast-cta__actions {
+      flex-direction: row;
+      justify-content: center;
+      row-gap: 0;
+    }
+
+    .podcast-cta__divider {
+      color: $color-grey-3;
+      display: inline;
+      padding: 0 10px;
+    }
+  }
+}
